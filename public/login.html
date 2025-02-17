@@ -7,6 +7,7 @@
 </head>
 <body>
     <h1>Login Page</h1>
+    <!-- Log in UI that calls login function upon submission -->
     <form id="loginForm">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
@@ -18,18 +19,23 @@
     </form>
 
     <script>
+        
         function login() {
+        //Gets the value the user put for their username and password
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
-
+        
+        //gives the server the username and password 
         fetch('/login', {
             method: 'POST',
             headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
             },
             body: `username=${username}&password=${password}`,
-        })
+        }) 
+        //Waits for a response and parses the json
         .then(response => response.json())
+        //Checks if the user does have permission to enter or not
         .then(data => {
             if (data.success) {
             alert('You have permissions to enter.');
@@ -37,6 +43,7 @@
             alert('You do not have permissions to enter.');
             }
         })
+        //Displays the error message if something goes wrong
         .catch(error => {
             console.error('Error:', error);
         });
